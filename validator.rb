@@ -63,7 +63,6 @@ module Validator
 
     def validate_type(attribute, type)
       message = "'#{attribute}' should be '#{type[0]}'!"
-      message += "\nGot: #{attribute.class}, #{attribute.inspect}"
       raise RailwayError, message unless attribute.is_a?(type[0])
     end
   end
