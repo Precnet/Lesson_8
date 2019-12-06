@@ -32,8 +32,10 @@ module Accessors
     attr_sym = "@#{attr}".to_sym
     define_method(attr) { instance_variable_get(attr_sym) }
     define_method("#{attr}=".to_sym) do |value|
-      check_value_is_of_class(value, attr_class)
-      instance_variable_set(attr, value)
+      message = "This variable should be a #{attr_class}!"
+      raise TypeError, message unless value.is_a? attr_class
+
+      instance_variable_set(attr_sym, value)
     end
   end
 
@@ -42,10 +44,5 @@ module Accessors
   def check_attr_name_is_symbol(attr)
     message = 'Method should be a symbol!'
     raise TypeError, message unless attr.is_a? Symbol
-  end
-
-  def check_value_is_of_class(value, v_class)
-    message = "This variable should be a #{v_class}!"
-    raise TypeError, message unless value.is_a? v_class
   end
 end
