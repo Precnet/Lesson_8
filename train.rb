@@ -24,6 +24,7 @@ class Train
     @type = type
 
     # validations
+    # ToDo: move it out of here (validate :type, :number_of_carriages, Integer)
     self.class.validate(@number_of_carriages, :type, Integer)
     self.class.validate(@number, :format, /^[0-9a-z]{3}-?[0-9a-z]{2}$/i)
     validate!
@@ -114,11 +115,11 @@ class Train
   #   rand(36**5).to_s(36)
   # end
 
-  def validate_local!
-    validate_number_of_carriages!
-    validate_train_number!
-    validate_train_number_format!
-  end
+  #def validate_local!
+  #  validate_number_of_carriages!
+  #  validate_train_number!
+  #  validate_train_number_format!
+  #end
 
   # def validate_number_of_carriages!
   #   error_amount = 'Number of carriages should be positive.'
@@ -171,3 +172,7 @@ class Train
     carriage.respond_to?(:type) && carriage.type == @type
   end
 end
+
+train = Train.new('cargo', 10, '12345')
+train2 = Train.new('cargo', 5, '123-df')
+p train
