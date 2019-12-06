@@ -20,8 +20,14 @@ class Train
   def initialize(type, number_of_carriages, number)
     @number = number
     @number_of_carriages = number_of_carriages
+    # puts @number_of_carriages.class
     @type = type
+
+    # validations
+    self.class.validate(@number_of_carriages, :type, Integer)
+    self.class.validate(@number, :format, /^[0-9a-z]{3}-?[0-9a-z]{2}$/i)
     validate!
+
     @current_speed = 0
     @current_station = nil
     @route = nil
@@ -108,30 +114,27 @@ class Train
   #   rand(36**5).to_s(36)
   # end
 
-  def validate!
+  def validate_local!
     validate_number_of_carriages!
     validate_train_number!
     validate_train_number_format!
   end
 
-  def validate_number_of_carriages!
-    error_type = 'Number of carriages should be Integer.'
-    raise RailwayError, error_type unless @number_of_carriages.is_a?(Integer)
+  # def validate_number_of_carriages!
+  #   error_amount = 'Number of carriages should be positive.'
+  #   raise RailwayError, error_amount unless @number_of_carriages >= 0
+  # end
+  #
+  # def validate_train_number!
+  #   error_type = "Should be 'cargo' or 'passenger'. Got - '#{@type}'"
+  #   raise RailwayError, error_type unless TRAIN_TYPES.include? @type
+  # end
 
-    error_amount = 'Number of carriages should be positive.'
-    raise RailwayError, error_amount unless @number_of_carriages >= 0
-  end
-
-  def validate_train_number!
-    error_type = "Should be 'cargo' or 'passenger'. Got - '#{@type}'"
-    raise RailwayError, error_type unless TRAIN_TYPES.include? @type
-  end
-
-  def validate_train_number_format!
-    error_number = "Train number is in wrong format - #{@number}"
-    correct_number = @number =~ /^[0-9a-z]{3}-?[0-9a-z]{2}$/i
-    raise RailwayError, error_number unless correct_number
-  end
+  # def validate_train_number_format!
+  #   error_number = "Train number is in wrong format - #{@number}"
+  #   correct_number = @number =~ /^[0-9a-z]{3}-?[0-9a-z]{2}$/i
+  #   raise RailwayError, error_number unless correct_number
+  # end
 
   # should be private because there is no need to call it in descendants
   def check_route
