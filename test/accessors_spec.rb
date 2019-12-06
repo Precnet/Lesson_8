@@ -25,4 +25,11 @@ describe 'Accessors' do
     @test_object.test = nil
     expect(@test_object.test_history).to eq(['1234', 1234, 1246, nil])
   end
+  it 'should create variables with strong typing' do
+    TestClass.send(:strong_attr_accessor, :strong, Integer)
+    @test_object.strong = 10
+    expect(@test_object.strong).to eq(10)
+    expect { @test_object.strong = '1' }.to raise_error(TypeError)
+    expect { @test_object.strong = [1] }.to raise_error(TypeError)
+  end
 end
