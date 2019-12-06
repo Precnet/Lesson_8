@@ -43,7 +43,6 @@ module Validator
       self.class.validations.each_key do |type|
         self.class.validations[type].each do |params|
           command = ('validate_' + type.to_s).to_sym
-          p *params
           send(command, *params)
         end
       end
