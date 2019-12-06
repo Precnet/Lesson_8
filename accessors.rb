@@ -7,23 +7,23 @@ module Accessors
       raise TypeError, message unless name.is_a? Symbol
 
       var_name = "@#{name}".to_sym
+      history = name.to_s + '_history'
+      var_history = "@#{history}".to_sym
 
+      # setter and getter for attribute
       define_method(name) { instance_variable_get(var_name) }
+
       define_method("#{name}=".to_sym) do |v|
         instance_variable_set(var_name, v)
-        instance_variable_set(var_name, v)
+        hist = instance_variable_get(var_history)
+        if hist
+          instance_variable_set(var_history, hist.push(v))
+        else
+          instance_variable_set(var_history, [v])
+        end
       end
 
-      history = name.to_s + '_history'
-      var_history = "@#{name}_history".to_sym
-
-
-
-      # define_method(history_name) { instance_variable_get(history_name) }
-      # setter
-      # define_method("#{name}=") do |v|
-      #   instance_variable_set("@#{name}", v)
-      # end
+      define_method(history) { instance_variable_get(var_history) }
     end
   end
 end
