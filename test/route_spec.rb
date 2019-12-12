@@ -34,6 +34,6 @@ describe 'Route' do
   it 'should count instances via mixin' do
     expect(Route.number_of_instances).to eq(3)
     Route.new('first', 'last')
-    expect(Route.number_of_instances).to eq(6)
+    expect(Route.number_of_instances).to eq(4)
   end
 end
