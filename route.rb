@@ -12,6 +12,10 @@ class Route
 
   attr_reader :stations, :number
 
+  validate :number, :presence
+  validate :number, :type, String
+  validate :number, :length, 3, 20
+
   def initialize(first_station, last_station, number = generate_route_number(5))
     @stations = [first_station, last_station]
     @number = number
@@ -36,24 +40,24 @@ class Route
 
   private
 
-  def validate!
-    # to avoid duplication with storing actual station objects route saves
-    # only station`s names, while actual stations are stored in instances 
-    # of UserData class (main.rb)
-    validate_route_name_type!
-    validate_route_name_length!
-  end
-
-  def validate_route_name_type!
-    type_message = "Wrong route name! Should be string, got #{@number.class}"
-    raise RailwayError, type_message unless @number.is_a?(String)
-  end
-
-  def validate_route_name_length!
-    length_message = 'Route number should be between 3 and 20 symbols!'
-    length_is_correct = @number.length > 3 && @number.length < 20
-    raise RailwayError, length_message unless length_is_correct
-  end
+  #def validate!
+  #  # to avoid duplication with storing actual station objects route saves
+  #  # only station`s names, while actual stations are stored in instances
+  #  # of UserData class (main.rb)
+  #  validate_route_name_type!
+  #  validate_route_name_length!
+  #end
+  #
+  #def validate_route_name_type!
+  #  type_message = "Wrong route name! Should be string, got #{@number.class}"
+  #  raise RailwayError, type_message unless @number.is_a?(String)
+  #end
+  #
+  #def validate_route_name_length!
+  #  length_message = 'Route number should be between 3 and 20 symbols!'
+  #  length_is_correct = @number.length > 3 && @number.length < 20
+  #  raise RailwayError, length_message unless length_is_correct
+  #end
 
   def generate_route_number(number_length)
     rand(36**number_length).to_s(36)
