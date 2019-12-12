@@ -72,13 +72,13 @@ describe 'Station' do
       @station.train_arrived(@train_1)
       @station.train_arrived(@train_2)
       @station.train_arrived(@train_3)
-      expect(@station.trains_at_station_by_type).to eq('cargo'=>2, 'passenger'=>1)
+      expect(@station.trains_at_station_by_type).to eq('cargo' => 2, 'passenger' => 1)
       @station.send_train('002-02')
-      expect(@station.trains_at_station_by_type).to eq('cargo'=>2)
+      expect(@station.trains_at_station_by_type).to eq('cargo' => 2)
       @station.send_train('001-01')
-      expect(@station.trains_at_station_by_type).to eq('cargo'=>1)
+      expect(@station.trains_at_station_by_type).to eq('cargo' => 1)
       @station.train_arrived(@train_2)
-      expect(@station.trains_at_station_by_type).to eq('cargo'=>1, 'passenger'=>1)
+      expect(@station.trains_at_station_by_type).to eq('cargo' => 1, 'passenger' => 1)
       @station.send_train('002-02')
       @station.send_train('003-03')
       expect(@station.trains_at_station_by_type).to eq({})
@@ -102,9 +102,11 @@ describe 'Station' do
       expect { @station.each_train { |train| puts train.type } }.to output(types).to_stdout
       # increase speed of cargo trains and puts it
       speeds = "10\n10\n"
-      expect do @station.each_train do |train| if train.type == 'cargo'
-                                               puts train.increase_speed_by(10)
-                                             end end end.to output(speeds).to_stdout
+      expect do
+        @station.each_train do |train|
+          puts train.increase_speed_by(10) if train.type == 'cargo'
+        end
+      end .to output(speeds).to_stdout
 
       expect { @station.each_train }.to raise_error(RailwayError)
     end
