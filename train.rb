@@ -175,4 +175,4 @@ end
 
 train = Train.new('cargo', 10, '12345')
 train2 = Train.new('cargo', 5, '123-df')
-p train
+p train, train2
