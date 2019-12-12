@@ -84,9 +84,9 @@ module Validator
     end
 
     def validate_value_is_in_range(attribute, range)
-      message = "'#{attribute}' should be either of '#{range}'"
+      message = "'#{attribute}' should be either of '#{range[0]}'"
       value = instance_variable_get("@#{attribute}".to_sym)
-      raise RailwayError, message unless range.include? value
+      raise RailwayError, message unless range[0].include? value
     end
   end
 end
