@@ -59,9 +59,9 @@ module Validator
 
     private
 
-    def validate_presence(attribute)
+    def validate_presence(attribute, *params)
       message = "There is no attribute #{attribute} in class '#{self.class}'!"
-      has_attribute = self.class.instance_variables.include? attribute
+      has_attribute = instance_variable_get("@#{attribute}".to_sym)
       raise RailwayError, message unless has_attribute
     end
 
