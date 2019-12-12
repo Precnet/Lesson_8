@@ -95,10 +95,10 @@ module Validator
       raise RailwayError, message unless value
     end
 
-    def validate_string_length(attribute, min_len, max_len)
-      message "'#{attribute}' length should be between #{min_len} and #{max_len}"
-      value = instance_variable_get("@#{attribute}".to_sym)
-      correct_length = (min_len < value) && (value < max_len)
+    def validate_string_length(attribute, range)
+      message = "'#{attribute}' length should be between #{range[0]} and #{range[1]}"
+      value = instance_variable_get("@#{attribute}".to_sym).length
+      correct_length = (range[0] < value) && (value < range[1])
       raise RailwayError, message unless correct_length
     end
   end
