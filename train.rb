@@ -17,8 +17,10 @@ class Train
               :number_of_carriages, :route
   @@trains = []
 
+  validate :number_of_carriages, :presence
   validate :number_of_carriages, :type, Integer
   validate :number_of_carriages, :positive
+  validate :number, :presence
   validate :number, :format, /^[0-9a-z]{3}-?[0-9a-z]{2}$/i
 
   def initialize(type, number_of_carriages, number)
@@ -174,7 +176,3 @@ class Train
     carriage.respond_to?(:type) && carriage.type == @type
   end
 end
-
-train = Train.new('cargo', 10, '12345')
-train2 = Train.new('cargo', 5, '123-df')
-p train, train2
