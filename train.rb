@@ -17,16 +17,18 @@ class Train
               :number_of_carriages, :route
   @@trains = []
 
+  validate :number_of_carriages, :type, Integer
+  validate :number_of_carriages, :positive
+  validate :number, :format, /^[0-9a-z]{3}-?[0-9a-z]{2}$/i
+
   def initialize(type, number_of_carriages, number)
     @number = number
     @number_of_carriages = number_of_carriages
-    # puts @number_of_carriages.class
     @type = type
 
     # validations
-    # ToDo: move it out of here (validate :type, :number_of_carriages, Integer)
-    self.class.validate(@number_of_carriages, :type, Integer)
-    self.class.validate(@number, :format, /^[0-9a-z]{3}-?[0-9a-z]{2}$/i)
+    # self.class.validate(@number_of_carriages, :type, Integer)
+    # self.class.validate(@number, :format, /^[0-9a-z]{3}-?[0-9a-z]{2}$/i)
     validate!
 
     @current_speed = 0

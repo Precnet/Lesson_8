@@ -17,6 +17,7 @@ module Validator
 
     def validate(attribute, validation_type, *params)
       check_validation_type(validation_type)
+      check_attribute(attribute)
       @validations ||= {}
       @validations[validation_type] ||= []
       @validations[validation_type].push([attribute, params])
@@ -26,7 +27,14 @@ module Validator
 
     def check_validation_type(type)
       message = "Validation type should be 'presence', 'format' or 'type'!"
-      raise RailwayError, message unless %w[presence format type].include? type.to_s
+      unless %w[presence format type positive].include? type.to_s
+        raise RailwayError, message
+      end
+    end
+
+    def check_attribute(attribute)
+      message = 'Attribute should be a symbol!'
+      raise RailwayError, message unless attribute.is_a?(Symbol)
     end
   end
 
@@ -40,6 +48,7 @@ module Validator
     end
 
     def validate!
+      puts self.class.validations
       self.class.validations.each_key do |type|
         self.class.validations[type].each do |params|
           command = ('validate_' + type.to_s).to_sym
@@ -58,12 +67,21 @@ module Validator
 
     def validate_format(attribute, format)
       message = "'#{attribute}' should be of format '#{format[0]}'"
-      raise RailwayError, message unless attribute =~ format[0]
+      value = instance_variable_get("@#{attribute}".to_sym)
+      raise RailwayError, message unless value =~ format[0]
     end
 
     def validate_type(attribute, type)
       message = "'#{attribute}' should be '#{type[0]}'!"
-      raise RailwayError, message unless attribute.is_a?(type[0])
+      value = instance_variable_get("@#{attribute}".to_sym)
+      raise RailwayError, message unless value.is_a?(type[0])
+    end
+
+    def validate_positive(attribute, *params)
+      validate_type(attribute, [Integer])
+      message = "'#{attribute}' should be positive!"
+      value = instance_variable_get("@#{attribute}".to_sym)
+      raise RailwayError, message unless value >= 0
     end
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rspec'
 require_relative '../cargo_train.rb'
 require_relative '../passenger_carriage.rb'

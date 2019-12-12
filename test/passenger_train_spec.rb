@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rspec'
 require_relative '../passenger_train.rb'
 
@@ -34,7 +36,7 @@ describe 'PassengerTrain' do
       expect { @train.each_carriage { |carriage| puts carriage.type } }.to output(types).to_stdout
       # place 2 cargo in each carriage
       free_cargo = "19\n21\n"
-      @train.each_carriage { |carriage| carriage.take_seat }
+      @train.each_carriage(&:take_seat)
       expect { @train.each_carriage { |carriage| puts carriage.free_seats }}.to output(free_cargo).to_stdout
     end
   end
