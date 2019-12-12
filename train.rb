@@ -22,6 +22,8 @@ class Train
   validate :number_of_carriages, :positive
   validate :number, :presence
   validate :number, :format, /^[0-9a-z]{3}-?[0-9a-z]{2}$/i
+  validate :type, :presence
+  validate :type, :value_is_in_range, ['cargo', 'passenger']
 
   def initialize(type, number_of_carriages, number)
     @number = number
