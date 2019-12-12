@@ -20,7 +20,7 @@ class Station
   validate :name, :presence
   validate :name, :not_nil
   validate :name, :type, String
-  validate :name, :string_length, 0, 20
+  validate :name, :length, 0, 20
 
   def initialize(station_name)
     @name = station_name

@@ -27,7 +27,7 @@ module Validator
 
     def check_validation_type(type)
       message = "Validation type should be 'presence', 'format' or 'type'!"
-      unless %w[presence format type positive value_is_in_range not_nil string_length].include? type.to_s
+      unless %w[presence format type positive value_is_in_range not_nil length].include? type.to_s
         raise RailwayError, message
       end
     end
@@ -95,7 +95,7 @@ module Validator
       raise RailwayError, message unless value
     end
 
-    def validate_string_length(attribute, range)
+    def validate_length(attribute, range)
       message = "'#{attribute}' length should be between #{range[0]} and #{range[1]}"
       value = instance_variable_get("@#{attribute}".to_sym).length
       correct_length = (range[0] < value) && (value < range[1])
