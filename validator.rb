@@ -89,7 +89,7 @@ module Validator
       raise RailwayError, message unless range[0].include? value
     end
 
-    def validate_not_nil(attribute)
+    def validate_not_nil(attribute, *params)
       message = "'#{attribute}' should not be nil!"
       value = instance_variable_get("@#{attribute}".to_sym)
       raise RailwayError, message unless value
