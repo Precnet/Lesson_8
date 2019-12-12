@@ -48,8 +48,13 @@ module Validator
     end
 
     def validate!
-      self.class.validations.each_key do |type|
-        self.class.validations[type].each do |params|
+      validations = if self.class.instance_variables.include? :@validations
+                      self.class.instance_variable_get :@validations
+                    else
+                      self.class.superclass.instance_variable_get :@validations
+                    end
+      validations.each_key do |type|
+        validations[type].each do |params|
           command = ('validate_' + type.to_s).to_sym
           send(command, *params)
         end
