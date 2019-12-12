@@ -48,7 +48,6 @@ module Validator
     end
 
     def validate!
-      puts self.class.validations
       self.class.validations.each_key do |type|
         self.class.validations[type].each do |params|
           command = ('validate_' + type.to_s).to_sym
