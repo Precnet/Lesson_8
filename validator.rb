@@ -27,7 +27,7 @@ module Validator
 
     def check_validation_type(type)
       message = "Validation type should be 'presence', 'format' or 'type'!"
-      unless %w[presence format type positive value_is_in_range].include? type.to_s
+      unless %w[presence format type positive value_is_in_range not_nil].include? type.to_s
         raise RailwayError, message
       end
     end
@@ -87,6 +87,12 @@ module Validator
       message = "'#{attribute}' should be either of '#{range[0]}'"
       value = instance_variable_get("@#{attribute}".to_sym)
       raise RailwayError, message unless range[0].include? value
+    end
+
+    def validate_not_nil(attribute)
+      message = "'#{attribute}' should not be nil!"
+      value = instance_variable_get("@#{attribute}".to_sym)
+      raise RailwayError, message unless value
     end
   end
 end
