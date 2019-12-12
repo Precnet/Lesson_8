@@ -27,7 +27,7 @@ module Validator
 
     def check_validation_type(type)
       message = "Validation type should be 'presence', 'format' or 'type'!"
-      unless %w[presence format type positive].include? type.to_s
+      unless %w[presence format type positive value_is_in_range].include? type.to_s
         raise RailwayError, message
       end
     end
@@ -81,6 +81,12 @@ module Validator
       message = "'#{attribute}' should be positive!"
       value = instance_variable_get("@#{attribute}".to_sym)
       raise RailwayError, message unless value >= 0
+    end
+
+    def validate_value_is_in_range(attribute, range)
+      message = "'#{attribute}' should be either of '#{range}'"
+      value = instance_variable_get("@#{attribute}".to_sym)
+      raise RailwayError, message unless range.include? value
     end
   end
 end
