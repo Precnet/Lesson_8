@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'validator.rb'
 require_relative 'railway_error.rb'
 
@@ -8,10 +10,14 @@ class Carriage
 
   LENGTH = 5
   BASE_36 = 36
-  CARRIAGE_TYPE = ''.freeze
+  CARRIAGE_TYPE = ''
 
   attr_reader :number, :type
   @@carriages = []
+
+  validate :number, :presence
+  validate :number, :type, String
+  validate :number, :length, 3, 20
 
   def self.carriages
     @@carriages
@@ -24,22 +30,6 @@ class Carriage
   end
 
   protected
-
-  def validate!
-    validate_carriage_name_type!
-    validate_carriage_name_length!
-  end
-
-  def validate_carriage_name_type!
-    type_message = "Wrong carriage name! Should be string, got #{@number.class}"
-    raise RailwayError, type_message unless @number.is_a?(String)
-  end
-
-  def validate_carriage_name_length!
-    length_message = 'Carriage number should be between 3 and 20 symbols!'
-    length_is_correct = @number.length >= 3 && @number.length < 20
-    raise RailwayError, length_message unless length_is_correct
-  end
 
   # this is a method for creating default name for carriage it should not
   # be used outside of object constructor
