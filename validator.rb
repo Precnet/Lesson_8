@@ -50,8 +50,11 @@ module Validator
     def validate!
       validations = if self.class.instance_variables.include? :@validations
                       self.class.instance_variable_get :@validations
-                    else
+                    elsif self.class.superclass.instance_variables.include? :@validations
                       self.class.superclass.instance_variable_get :@validations
+                    else
+                      message = 'No :@validations found in self.class or super.class!'
+                      raise RailwayError, message
                     end
       validations.each_key do |type|
         validations[type].each do |params|
