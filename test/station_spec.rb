@@ -84,13 +84,13 @@ describe 'Station' do
       expect(@station.trains_at_station_by_type).to eq({})
     end
     it 'should return all instances instances' do
-      expect(Station.all.length).to eq(2)
-      expect(Station.all.select { |station| station.class == Station }.length).to eq(2)
+      expect(Station.all.length).to eq(11)
+      expect(Station.all.select { |station| station.class == Station }.length).to eq(11)
     end
     it 'should count instances via mixin' do
-      expect(Station.number_of_instances).to eq(2)
+      expect(Station.number_of_instances).to eq(11)
       Station.new('1234')
-      expect(Station.number_of_instances).to eq(3)
+      expect(Station.number_of_instances).to eq(12)
     end
     it 'should apply custom block to trains on station' do
       @station.train_arrived(@train_1)
