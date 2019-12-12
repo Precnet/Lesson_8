@@ -17,6 +17,11 @@ class Station
     @@stations
   end
 
+  validate :name, :presence
+  validate :name, :not_nil
+  validate :name, :type, String
+  validate :name, :string_length, 0, 20
+
   def initialize(station_name)
     @name = station_name
     validate!
@@ -57,33 +62,6 @@ class Station
   end
 
   private
-
-  def validate!
-    validate_station_name_not_nil!
-    validate_station_name_type!
-    validate_station_name_empty!
-    validate_station_name_length!
-  end
-
-  def validate_station_name_not_nil!
-    nil_message = 'Station name can`t be nil!'
-    raise RailwayError, nil_message unless @name
-  end
-
-  def validate_station_name_type!
-    type_message = 'Station name should be of String class!'
-    raise RailwayError, type_message unless @name.is_a?(String)
-  end
-
-  def validate_station_name_empty!
-    empty_message = 'Station name can`t be empty!'
-    raise RailwayError, empty_message unless @name.length.positive?
-  end
-
-  def validate_station_name_length!
-    long_message = 'Station name is too long! Should be <= 20 symbols.'
-    raise RailwayError, long_message unless @name.length <= 20
-  end
 
   def train_at_station?(train_number)
     @trains_at_station.map(&:number).include? train_number
